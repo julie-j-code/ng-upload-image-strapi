@@ -2,6 +2,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4.
 
+## Objectif
+
+Créer une carte d'adhésion en recourrant à une webcam
+Plus spécifiquement, on va recourir au package ngx-webcam
+https://www.npmjs.com/package/ngx-webcam
+Il faut ensuite importer WebcamModule dans le tableau des imports
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
