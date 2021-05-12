@@ -9,6 +9,11 @@ Plus spécifiquement, on va recourir au package ngx-webcam
 https://www.npmjs.com/package/ngx-webcam
 Il faut ensuite importer WebcamModule dans le tableau des imports
 
+Pour disposer d'un backend rapidement : 
+`npx create-strapi-app my-project --quickstart`
+Ce qui implique, pour interagir avec d'ajouter httpClientModule au tableau des imports. L'interaction se fera par le biais d'un service. 
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.

@@ -321,15 +321,14 @@
       <div class="snapshot" *ngIf="webcamImage">
         <h2>C'est dans la boîte :)</h2>
         <img [src]="webcamImage.imageAsDataUrl" />
+        <button class="actionBtn" (click)="upload();">sauvegarder cette photo</button>
       </div>
 
       <h4 *ngIf="errors.length > 0">Messages:</h4>
       <ul *ngFor="let error of errors">
         <li>{{error | json}}</li>
       </ul>
+
     </div>
-
-
-
 
   </div>
