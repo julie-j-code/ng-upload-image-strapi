@@ -2,9 +2,9 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.4.
 
-## Objectif
+## Objectif de l'exercice
 
-Créer une carte d'adhésion en recourrant à une webcam
+Créer une carte d'adhésion en recourant à une webcam
 Plus spécifiquement, on va recourir au package ngx-webcam
 https://www.npmjs.com/package/ngx-webcam
 Il faut ensuite importer WebcamModule dans le tableau des imports
