@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 
-import { WebcamImage, WebcamInitError,WebcamUtil } from 'ngx-webcam';
-import { Observable, Subject, Observer,Subscription  } from 'rxjs';
+import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
+import { Observable, Subject, Observer, Subscription } from 'rxjs';
 
 import { ImageService } from './services/image.service';
 
@@ -13,8 +13,8 @@ import { ImageService } from './services/image.service';
 export class AppComponent implements OnDestroy {
   title = 'ng-generate-picture';
   public videoOptions: MediaTrackConstraints = {
-    width:1024,
-    height:576
+    width: 1024,
+    height: 576
   };
 
   // qui au départ sera un tableau vide
@@ -26,12 +26,11 @@ export class AppComponent implements OnDestroy {
   imageFile: File;
   fileUploadSub: Subscription;
   blobSub: Subscription;
-
-  // generatedImage: string;
+  pleaseWait = false;
 
   // on demande une instance du service nouvellement crée
   // qu'on utilisera dans notre methode d'upload
-  constructor(private imageService: ImageService) {}
+  constructor(private imageService: ImageService) { }
 
   // webcam snapshot trigger pour déclencher la prise de photo
   // on utilise Subject qui dans le monde de rxjs est un observable et un observeur
@@ -40,33 +39,27 @@ export class AppComponent implements OnDestroy {
   // lorsqu'on voudra déclencher une prise de photo
   // on appellera une méthode qu'on décide d'appeler :
 
-  public triggerSnapshot(): void{
+  public triggerSnapshot(): void {
     this.trigger.next();
   }
 
-  public handleInitError(error:WebcamInitError):void{
+  public handleInitError(error: WebcamInitError): void {
     this.errors.push(error);
   }
 
-  public handleImage(webcamImage: WebcamImage): void{
+  public handleImage(webcamImage: WebcamImage): void {
     console.log('received webcam image', webcamImage);
     this.webcamImage = webcamImage;
 
     // this.dataURItoBlob(webcamImage.imageAsBase64).subscribe(
-      this.blobSub = this.dataURItoBlob(webcamImage.imageAsBase64).subscribe(
-    (blob) => {
+    this.blobSub = this.dataURItoBlob(webcamImage.imageAsBase64).subscribe(
+      (blob) => {
         const imageBlob: Blob = blob;
-        // const imageName: string = new Date().toISOString();
-        // const imageFile: File = new File([imageBlob], imageName, {
-          const imageName: string = `${new Date().toISOString()}.jpeg`;
-          this.imageFile = new File([imageBlob], imageName, {
-        type: 'image/jpeg',
+        const imageName: string = `${new Date().toISOString()}.jpeg`;
+        this.imageFile = new File([imageBlob], imageName, {
+          type: 'image/jpeg',
         });
-        // console.log('imageFile', imageFile);
 
-        // this.generatedImage = window.URL.createObjectURL(imageFile);
-        // console.log('generatedImage', this.generatedImage);
-        // window.open(this.generatedImage);
       },
       (err) => console.error(err),
       () => console.log('completed')
@@ -74,7 +67,7 @@ export class AppComponent implements OnDestroy {
 
   }
 
-  public get triggerObservable(): Observable<void>{
+  public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
   }
   // Method to convert Base64Data Url as Image Blob
@@ -100,9 +93,11 @@ export class AppComponent implements OnDestroy {
     this.fileUploadSub = this.imageService.uploadImage(formData).subscribe(
       (imageData: any[]) => {
         // console.log('imageData', imageData);
+        this.pleaseWait = false;
       },
       (err) => {
         console.error('AppComponent | upload() | err', err);
+        this.pleaseWait = false;
       }
     );
   }
