@@ -27,3 +27,10 @@ ul.links {
   color: green;
   font-size: x-large;
 }
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

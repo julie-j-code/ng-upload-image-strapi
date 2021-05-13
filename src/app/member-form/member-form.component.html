@@ -1,1 +1,6 @@
-<p>member-form works!</p>
+<form [formGroup]="createMember" (ngSubmit)="create()">
+  <input formControlName="firstName" type="text" name="firstName" id="firstName" placeholder="Prénom"><br>
+  <input formControlName="name" type="text" name="name" id="name" placeholder="Nom"><br>
+  <dp-date-picker formControlName="dob" [config]="datePickerConfig" placeholder="Date de naissance"></dp-date-picker><br>
+  <button type="submit" class="actionBtn">créer</button>
+</form>
