@@ -1,57 +1,38 @@
 import { Component, OnDestroy } from '@angular/core';
-
-import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
-import { Observable, Subject, Observer, Subscription } from 'rxjs';
-
+import { Subject, Observable, Observer, Subscription } from 'rxjs';
+import { WebcamImage, WebcamInitError } from 'ngx-webcam';
 import { ImageService } from './services/image.service';
-
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnDestroy {
-  title = 'ng-generate-picture';
   public videoOptions: MediaTrackConstraints = {
-    width: 1024,
-    height: 576
+    // width: {ideal: 1024},
+    // height: {ideal: 576}
   };
-
-  // qui au départ sera un tableau vide
   public errors: WebcamInitError[] = [];
-
-  // latest snapshot dans l'hypothèse où plusieures captures sont prises
-  // qui sera ultérieurement conservée sur le serveur
+  // latest snapshot
   public webcamImage: WebcamImage = null;
   imageFile: File;
   fileUploadSub: Subscription;
   blobSub: Subscription;
   pleaseWait = false;
 
-  // on demande une instance du service nouvellement crée
-  // qu'on utilisera dans notre methode d'upload
-  constructor(private imageService: ImageService) { }
+  constructor(private imageService: ImageService) {}
 
-  // webcam snapshot trigger pour déclencher la prise de photo
-  // on utilise Subject qui dans le monde de rxjs est un observable et un observeur
+  // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
-
-  // lorsqu'on voudra déclencher une prise de photo
-  // on appellera une méthode qu'on décide d'appeler :
-
   public triggerSnapshot(): void {
     this.trigger.next();
   }
-
   public handleInitError(error: WebcamInitError): void {
     this.errors.push(error);
   }
-
   public handleImage(webcamImage: WebcamImage): void {
-    console.log('received webcam image', webcamImage);
+    console.info('received webcam image', webcamImage);
     this.webcamImage = webcamImage;
-
-    // this.dataURItoBlob(webcamImage.imageAsBase64).subscribe(
     this.blobSub = this.dataURItoBlob(webcamImage.imageAsBase64).subscribe(
       (blob) => {
         const imageBlob: Blob = blob;
@@ -59,14 +40,12 @@ export class AppComponent implements OnDestroy {
         this.imageFile = new File([imageBlob], imageName, {
           type: 'image/jpeg',
         });
-
+        console.log('imageFile', this.imageFile);
       },
       (err) => console.error(err),
       () => console.log('completed')
     );
-
   }
-
   public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
   }
@@ -87,12 +66,13 @@ export class AppComponent implements OnDestroy {
   }
 
   upload() {
+    this.pleaseWait = true;
     const formData: FormData = new FormData();
     //!\ Strapi expect files (plural!)
     formData.append('files', this.imageFile, this.imageFile.name);
     this.fileUploadSub = this.imageService.uploadImage(formData).subscribe(
       (imageData: any[]) => {
-        // console.log('imageData', imageData);
+        console.log('imageData', imageData);
         this.pleaseWait = false;
       },
       (err) => {
@@ -101,10 +81,8 @@ export class AppComponent implements OnDestroy {
       }
     );
   }
-
   ngOnDestroy() {
     this.blobSub.unsubscribe();
     this.fileUploadSub.unsubscribe();
   }
-
 }
