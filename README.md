@@ -13,6 +13,14 @@ Pour disposer d'un backend rapidement :
 `npx create-strapi-app my-project --quickstart`
 Ce qui implique, pour interagir avec d'ajouter httpClientModule au tableau des imports. L'interaction se fera par le biais d'un service. 
 
+Au lieu du datepiker natif HMTL5, on utilise ici : 
+https://www.npmjs.com/package/ng2-date-picker
+`npm i ng2-date-picker`
+qui implique d'importer au tableau des imports DpDatePickerModule
+import {DpDatePickerModule} from 'ng2-date-picker';
+
+Pour la création de nouveau membre, on utilisera ReactiveFormsModule à ajouter au tableau des imports
+import { ReactiveFormsModule } from "@angular/forms";
 
 ## Development server
 
