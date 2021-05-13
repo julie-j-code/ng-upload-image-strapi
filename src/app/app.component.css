@@ -21,3 +21,9 @@ ul.links {
   width: 50px;
   vertical-align: middle;
 }
+
+.message {
+  text-align: center;
+  color: green;
+  font-size: x-large;
+}

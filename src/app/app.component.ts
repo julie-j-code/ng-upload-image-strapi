@@ -19,8 +19,12 @@ export class AppComponent implements OnDestroy {
   fileUploadSub: Subscription;
   blobSub: Subscription;
   pleaseWait = false;
+  message: string;
+  pictureProcessed = false;
+  isPreviewVisible = true;
+  togglePreviewMessage = 'prévisualisation activée';
 
-  constructor(private imageService: ImageService) {}
+  constructor(private imageService: ImageService) { }
 
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
@@ -31,6 +35,7 @@ export class AppComponent implements OnDestroy {
     this.errors.push(error);
   }
   public handleImage(webcamImage: WebcamImage): void {
+    this.pictureProcessed = false;
     console.info('received webcam image', webcamImage);
     this.webcamImage = webcamImage;
     this.blobSub = this.dataURItoBlob(webcamImage.imageAsBase64).subscribe(
@@ -74,6 +79,9 @@ export class AppComponent implements OnDestroy {
       (imageData: any[]) => {
         console.log('imageData', imageData);
         this.pleaseWait = false;
+        this.message = 'image sauvegardée';
+        this.pictureProcessed = true;
+        this.showMessage({ duration: 2000, message: 'image sauvegardée' })
       },
       (err) => {
         console.error('AppComponent | upload() | err', err);
@@ -81,6 +89,20 @@ export class AppComponent implements OnDestroy {
       }
     );
   }
+
+  showMessage(options) {
+    setTimeout(() => {
+      this.message = '';
+    }, options.duration);
+  }
+
+  togglePreviewVisibility() {
+    this.isPreviewVisible = !this.isPreviewVisible;
+    this.togglePreviewMessage = this.isPreviewVisible ? 'prévisualisation activée' : 'prévisualisation désactivée'
+  }
+
+
+
   ngOnDestroy() {
     this.blobSub.unsubscribe();
     this.fileUploadSub.unsubscribe();

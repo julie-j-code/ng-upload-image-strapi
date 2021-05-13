@@ -245,7 +245,7 @@
       Photographier
     </h1>
 
-    <div>
+    <div *ngIf="isPreviewVisible">
       <webcam [height]="500" [width]="500" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
         [videoOptions]="videoOptions" [imageQuality]="1" (initError)="handleInitError($event)"></webcam>
       <br />
@@ -253,20 +253,28 @@
         Prendre une photo
       </button>
     </div>
+    <label for="visibilityChk">{{ togglePreviewMessage }}</label>
+    <input type="checkbox" name="visibilityChk" id="visibilityChk" (click)="togglePreviewVisibility()" />
   </div>
 
-  <div class="snapshot" *ngIf="webcamImage">
-    <h2>C'est dans la boîte :)</h2>
-    <img [src]="webcamImage.imageAsDataUrl" />
-    <button class="actionBtn" (click)="upload()">sauvegarder cette photo</button>
-    <span *ngIf="pleaseWait">
-      <img src="assets/images/spinner-pink.gif" alt="spinner" class="spinner" />
-    </span>
-  </div>
+  <div *ngIf="!pictureProcessed">
+    <div class="snapshot" *ngIf="webcamImage">
+      <img [src]="webcamImage.imageAsDataUrl" />
+      <button class="actionBtn" (click)="upload()">
+        sauvegarder cette photo
+      </button>
+      <span *ngIf="pleaseWait">
+        <img src="assets/images/spinner-pink.gif" alt="spinner" class="spinner" />
+      </span>
+    </div>
 
-  <h4 *ngIf="errors.length > 0">Messages:</h4>
-  <ul *ngFor="let error of errors">
-    <li>{{ error | json }}</li>
-  </ul>
+    <h4 *ngIf="errors.length > 0">Messages:</h4>
+    <ul *ngFor="let error of errors">
+      <li>{{ error | json }}</li>
+    </ul>
+  </div>
+  <div class="message">
+    {{ message }}
+  </div>
 
 </div>
