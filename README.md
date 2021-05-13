@@ -22,6 +22,10 @@ import {DpDatePickerModule} from 'ng2-date-picker';
 Pour la création de nouveau membre, on utilisera ReactiveFormsModule à ajouter au tableau des imports
 import { ReactiveFormsModule } from "@angular/forms";
 
+## Coté strapi
+La création de la collection member génère côté backend un modèle
+api/member/member.settings.json
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
