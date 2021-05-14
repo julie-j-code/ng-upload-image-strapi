@@ -1,6 +1,25 @@
 <form [formGroup]="createMember" (ngSubmit)="create()">
-  <input formControlName="firstName" type="text" name="firstName" id="firstName" placeholder="Prénom"><br>
-  <input formControlName="name" type="text" name="name" id="name" placeholder="Nom"><br>
-  <dp-date-picker formControlName="dob" [config]="datePickerConfig" placeholder="Date de naissance"></dp-date-picker><br>
+  <label for="firstName">Prénom</label><br />
+  <input formControlName="firstName" type="text" name="firstName" id="firstName" placeholder="Prénom" /><br />
+  <label for="firstName">Nom</label><br />
+  <input formControlName="name" type="text" name="name" id="name" placeholder="Nom" /><br />
+  <label for="dob">Date de naissance</label><br />
+  <dp-date-picker formControlName="dob" [config]="datePickerConfig" placeholder="Date de naissance"></dp-date-picker>
+  <br />
+  <label for="dob">Date de souscription</label><br />
+  <dp-date-picker formControlName="dateOfSubscription" [config]="datePickerConfig" placeholder="Date de naissance">
+  </dp-date-picker>
+  <div formGroupName="address">
+    <label for="street">Rue</label><br />
+    <input formControlName="street" type="text" name="street" id="street" placeholder="1 rue du blabla" /><br />
+    <label for="streetComplement">Complément d'adresse</label><br />
+    <input formControlName="streetComplement" type="text" name="streetComplement" id="streetComplement"
+      placeholder="immeuble blibli" /><br />
+    <label for="zip">Code postal</label><br />
+    <input formControlName="zip" type="text" name="zip" id="zip" placeholder="Code postal" /><br />
+    <label for="town">Ville</label><br />
+
+    <input formControlName="town" type="text" name="town" id="town" placeholder="Ville" /><br />
+  </div>
   <button type="submit" class="actionBtn">créer</button>
 </form>

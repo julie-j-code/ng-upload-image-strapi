@@ -26,6 +26,13 @@ import { ReactiveFormsModule } from "@angular/forms";
 La création de la collection member génère côté backend un modèle
 api/member/member.settings.json
 
+## Coté formulaire
+La nouveauté pour moi, c'est l'imbrication de FormGroup destiné à l'adresse dans le FormGroup destiné à member.
+Et le truc qui peut sembler contre intuitif si tant est qu'on puisse parler d'intuition ou de ressenti quand on fait du procédural, c'est la syntaxe qui suit pour le inner FormGroup :
+` <div formGroupName="address">`
+à l'intérieur de :
+`<form [formGroup]="createMember" (ngSubmit)="create()">`
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
