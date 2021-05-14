@@ -4,10 +4,10 @@
   <label for="firstName">Nom</label><br />
   <input formControlName="name" type="text" name="name" id="name" placeholder="Nom" /><br />
   <label for="dob">Date de naissance</label><br />
-  <dp-date-picker formControlName="dob" [config]="datePickerConfig" placeholder="Date de naissance"></dp-date-picker>
+  <dp-date-picker formControlName="dob" [config]="datePickerConfig"  id="dob" placeholder="Date de naissance"></dp-date-picker>
   <br />
   <label for="dob">Date de souscription</label><br />
-  <dp-date-picker formControlName="dateOfSubscription" [config]="datePickerConfig" placeholder="Date de naissance">
+  <dp-date-picker formControlName="dateOfSubscription" [config]="datePickerConfig" id="dateOfSubscription" placeholder="Date de naissance">
   </dp-date-picker>
   <div formGroupName="address">
     <label for="street">Rue</label><br />

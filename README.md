@@ -33,6 +33,13 @@ Et le truc qui peut sembler contre intuitif si tant est qu'on puisse parler d'in
 à l'intérieur de :
 `<form [formGroup]="createMember" (ngSubmit)="create()">`
 
+le fait d'avoir un modèle de données côté backend ne dispense pas de devoir créer des modèles côté frontend pour bénéficier d'un typage fort, comme nous y insite toujours codeconcept dans le suivi de ses cours
+
+d'où le recours à : 
+`ng g interface models/adress`
+`ng g interface models/member`
+
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
