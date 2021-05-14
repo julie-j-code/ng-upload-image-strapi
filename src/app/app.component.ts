@@ -1,7 +1,9 @@
 import { Component, OnDestroy } from '@angular/core';
 import { Subject, Observable, Observer, Subscription } from 'rxjs';
+
 import { WebcamImage, WebcamInitError } from 'ngx-webcam';
 import { ImageService } from './services/image.service';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,9 +15,11 @@ export class AppComponent implements OnDestroy {
     // height: {ideal: 576}
   };
   public errors: WebcamInitError[] = [];
-  // latest snapshot
+
+  // latest snapshot à conserver
   public webcamImage: WebcamImage = null;
   imageFile: File;
+  imageHash: string;
   fileUploadSub: Subscription;
   blobSub: Subscription;
   pleaseWait = false;
@@ -28,12 +32,15 @@ export class AppComponent implements OnDestroy {
 
   // webcam snapshot trigger
   private trigger: Subject<void> = new Subject<void>();
+
   public triggerSnapshot(): void {
     this.trigger.next();
   }
+
   public handleInitError(error: WebcamInitError): void {
     this.errors.push(error);
   }
+
   public handleImage(webcamImage: WebcamImage): void {
     this.pictureProcessed = false;
     console.info('received webcam image', webcamImage);
@@ -41,7 +48,7 @@ export class AppComponent implements OnDestroy {
     this.blobSub = this.dataURItoBlob(webcamImage.imageAsBase64).subscribe(
       (blob) => {
         const imageBlob: Blob = blob;
-        const imageName: string = `${new Date().toISOString()}.jpeg`;
+        const imageName: string = `${Date.now()}.jpeg`;
         this.imageFile = new File([imageBlob], imageName, {
           type: 'image/jpeg',
         });
@@ -51,9 +58,11 @@ export class AppComponent implements OnDestroy {
       () => console.log('completed')
     );
   }
+
   public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
   }
+
   // Method to convert Base64Data Url as Image Blob
   // https://medium.com/better-programming/convert-a-base64-url-to-image-file-in-angular-4-5796a19fdc21
   dataURItoBlob(dataURI: string): Observable<Blob> {
@@ -79,9 +88,10 @@ export class AppComponent implements OnDestroy {
       (imageData: any[]) => {
         console.log('imageData', imageData);
         this.pleaseWait = false;
+        this.imageHash = imageData[0].hash;
         this.message = 'image sauvegardée';
         this.pictureProcessed = true;
-        this.showMessage({ duration: 2000, message: 'image sauvegardée' })
+        this.showMessage({ duration: 2000, message: 'image sauvegardée' });
       },
       (err) => {
         console.error('AppComponent | upload() | err', err);
@@ -98,15 +108,14 @@ export class AppComponent implements OnDestroy {
 
   togglePreviewVisibility() {
     this.isPreviewVisible = !this.isPreviewVisible;
-    this.togglePreviewMessage = this.isPreviewVisible ? 'prévisualisation activée' : 'prévisualisation désactivée'
+    this.togglePreviewMessage = this.isPreviewVisible
+      ? 'prévisualisation activée'
+      : 'prévisualisation désactivée';
   }
-
-
 
   ngOnDestroy() {
     this.blobSub.unsubscribe();
     this.fileUploadSub.unsubscribe();
   }
 }
-
 

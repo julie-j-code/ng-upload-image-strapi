@@ -1,0 +1,11 @@
+<div *ngIf="member" class="card">
+  <h3>{{ member.firstName }} {{ member.name }}</h3>
+  carte n° : {{ member.id }} <br />
+  date de naissance : {{ member.dob | date: "dd/LL/yyyy" }} <br />
+  date d'abonnement : {{ member.dateOfSubscription | date: "dd/LL/yyyy" }}
+  <br />
+  rue : {{ member.address.street }} <br />
+  complément : {{ member.address.streetComplement ? member.address.streetComplement : '---' }} <br />
+  code postal : {{ member.address.zip }} <br />
+  ville : {{ member.address.town }} <br />
+</div>
